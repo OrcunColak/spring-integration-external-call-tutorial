@@ -12,7 +12,13 @@
 
     <int:channel id="outputExternalChannel"/>
 
-    <int-http:outbound-gateway request-channel="inputExternalChannel"
+    <!-- Define the transformer -->
+    <int:transformer input-channel="inputExternalChannel"
+                     output-channel="transformedChannel"
+                     ref="transformer"
+                     method="transformToSecondCall" />
+
+    <int-http:outbound-gateway request-channel="transformedChannel"
                                reply-channel="outputExternalChannel"
                                id="outboundExternalGateway"
                                url="https://www.google.com/search?q={message}"
